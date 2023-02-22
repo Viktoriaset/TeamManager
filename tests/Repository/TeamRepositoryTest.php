@@ -2,8 +2,8 @@
 
 namespace App\Tests\Repository;
 
-use App\Entity\Team;
-use App\Repository\TeamRepository;
+use App\Entity\Group;
+use App\Repository\GroupRepository;
 use App\Tests\AbstractRepositoryTest;
 use App\Tests\MockUtils;
 use PHPUnit\Framework\TestCase;
@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestCase;
 class TeamRepositoryTest extends AbstractRepositoryTest
 {
 
-    private TeamRepository $teamRepository;
+    private GroupRepository $teamRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->teamRepository = $this->getRepositoryForEntity(Team::class);
+        $this->teamRepository = $this->getRepositoryForEntity(Group::class);
     }
 
     public function testFindTeamsByUserId()

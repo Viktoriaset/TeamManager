@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Model\UserListResponse;
+use App\Model\UserModel;
 use App\Service\UserService;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
@@ -22,7 +22,7 @@ class UserController extends AbstractController
      *     response=200,
      *     description="return members for team",
      *
-     *     @Model(type=UserListResponse::class)
+     *     @Model(type=UserModel::class)
      * )
      *
      * @OA\Response(
@@ -33,8 +33,8 @@ class UserController extends AbstractController
      * )
      */
     #[Route(path: '/api/v1/team/{id}/members', methods: ['GET'])]
-    public function getUsersByTeamId(int $id): Response
+    public function getUserById(int $id): Response
     {
-        return $this->json($this->userService->getUsersByTeamId($id));
+        return $this->json($this->userService->getUserById($id));
     }
 }

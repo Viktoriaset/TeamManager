@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-class TeamModel
+class GroupModel
 {
     private int $id;
 

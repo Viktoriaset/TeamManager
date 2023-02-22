@@ -3,17 +3,17 @@
 namespace App\Controller;
 
 use App\Model\ErrorResponse;
-use App\Model\TeamListResponse;
-use App\Service\TeamService;
+use App\Service\GroupService;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Model\GroupListResponse;
 
-class TeamController extends AbstractController
+class GroupController extends AbstractController
 {
-    public function __construct(private TeamService $teamService)
+    public function __construct(private GroupService $groupService)
     {
     }
 
@@ -22,7 +22,7 @@ class TeamController extends AbstractController
      *     response=200,
      *     description="return Teams by user Id",
      *
-     *     @Model(type=TeamListResponse::class)
+     *     @Model(type=GroupListResponse::class)
      * )
      *
      * @OA\Response(
@@ -35,6 +35,6 @@ class TeamController extends AbstractController
     #[Route(path: '/api/v1/user/{userId}/teams', methods: ['GET'])]
     public function getTeamsByUsersId(int $userId): Response
     {
-        return $this->json($this->teamService->getTeamsByUserId($userId));
+        return $this->json($this->groupService->getGroupsByUserId($userId));
     }
 }

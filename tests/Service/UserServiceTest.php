@@ -3,10 +3,10 @@
 namespace App\Tests\Service;
 
 use App\Entity\User;
-use App\Exception\TeamNotFoundException;
+use App\Exception\GroupNotFoundException;
 use App\Model\UserListResponse;
 use App\Model\UserModel;
-use App\Repository\TeamRepository;
+use App\Repository\GroupRepository;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Tests\AbstractTestCase;
@@ -15,19 +15,19 @@ class UserServiceTest extends AbstractTestCase
 {
     private UserRepository $userRepository;
 
-    private TeamRepository $teamRepository;
+    private GroupRepository $teamRepository;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->userRepository = $this->createMock(UserRepository::class);
-        $this->teamRepository = $this->createMock(TeamRepository::class);
+        $this->teamRepository = $this->createMock(GroupRepository::class);
     }
 
     public function testGetUsersByTeamIdWhenTeamNotFound()
     {
-        $this->expectException(TeamNotFoundException::class);
+        $this->expectException(GroupNotFoundException::class);
 
         $this->teamRepository->expects($this->once())
             ->method('existsById')

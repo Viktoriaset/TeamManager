@@ -5,15 +5,15 @@ namespace App\Tests\Service;
 use App\Exception\UserNotFoundException;
 use App\Model\TeamListResponse;
 use App\Model\TeamModel;
-use App\Repository\TeamRepository;
+use App\Repository\GroupRepository;
 use App\Repository\UserRepository;
-use App\Service\TeamService;
+use App\Service\GroupService;
 use App\Tests\AbstractTestCase;
 use App\Tests\MockUtils;
 
 class TeamServiceTest extends AbstractTestCase
 {
-    private TeamRepository $teamRepository;
+    private GroupRepository $teamRepository;
 
     private UserRepository $userRepository;
 
@@ -21,7 +21,7 @@ class TeamServiceTest extends AbstractTestCase
     {
         parent::setUp();
 
-        $this->teamRepository = $this->createMock(TeamRepository::class);
+        $this->teamRepository = $this->createMock(GroupRepository::class);
         $this->userRepository = $this->createMock(UserRepository::class);
     }
 
@@ -60,8 +60,8 @@ class TeamServiceTest extends AbstractTestCase
         $this->assertEquals($expectTeamListResponse, $this->createTeamService()->getTeamsByUserId(1));
     }
 
-    private function createTeamService(): TeamService
+    private function createTeamService(): GroupService
     {
-        return new TeamService($this->teamRepository, $this->userRepository);
+        return new GroupService($this->teamRepository, $this->userRepository);
     }
 }

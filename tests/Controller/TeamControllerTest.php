@@ -2,7 +2,7 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\TeamController;
+use App\Controller\GroupController;
 use App\Tests\AbstractControllerTest;
 use App\Tests\MockUtils;
 use PHPUnit\Framework\TestCase;

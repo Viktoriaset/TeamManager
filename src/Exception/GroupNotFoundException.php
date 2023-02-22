@@ -2,7 +2,7 @@
 
 namespace App\Exception;
 
-class TeamNotFoundException extends \RuntimeException
+class GroupNotFoundException extends \RuntimeException
 {
     public function __construct()
     {

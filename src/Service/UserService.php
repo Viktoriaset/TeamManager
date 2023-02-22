@@ -3,32 +3,24 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Exception\TeamNotFoundException;
+use App\Exception\UserNotFoundException;
 use App\Model\UserListResponse;
 use App\Model\UserModel;
-use App\Repository\TeamRepository;
 use App\Repository\UserRepository;
 
 class UserService
 {
-    public function __construct(
-        private UserRepository $userRepository,
-        private TeamRepository $teamRepository)
+    public function __construct(private UserRepository $userRepository)
     {
     }
 
-    public function getUsersByTeamId(int $teamId): UserListResponse
+    public function getUserById(int $userId): UserModel
     {
-        if (!$this->teamRepository->existsById($teamId)) {
-            throw new TeamNotFoundException();
+        if ($this->userRepository->existsById($userId)) {
+            throw new UserNotFoundException();
         }
 
-        $users = $this->userRepository->getUsersByTeamId($teamId);
-
-        return new UserListResponse(array_map(
-            [$this, 'map'],
-            $users
-        ));
+        return $this->map($this->userRepository->getUserById($userId));
     }
 
     private function map(User $user): UserModel

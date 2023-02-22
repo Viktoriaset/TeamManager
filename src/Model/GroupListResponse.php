@@ -2,19 +2,19 @@
 
 namespace App\Model;
 
-class TeamListResponse
+class GroupListResponse
 {
     /**
-     * @param TeamModel[] $items
+     * @param GroupModel[] $items
      */
     public function __construct(private array $items)
     {
     }
 
     /**
-     * @return TeamModel[]
+     * @return GroupModel[]
      */
-    public function getTeams(): array
+    public function getItems(): array
     {
         return $this->items;
     }
