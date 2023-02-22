@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Group;
 use App\Entity\Member;
+use App\Exception\GroupNotFoundException;
 use App\Exception\UserNotFoundException;
 use App\Model\GroupListResponse;
 use App\Model\GroupModel;
@@ -14,7 +16,8 @@ class GroupService
 {
     public function __construct(
        private UserRepository $userRepository,
-       private MemberRepository $memberRepository, )
+       private MemberRepository $memberRepository,
+       private GroupRepository $groupRepository)
     {
     }
 
@@ -28,14 +31,26 @@ class GroupService
 
         return new GroupListResponse(array_map(
             [$this, 'map'],
-            $memberships
+            array_map(
+                fn (Member $member) => $member->getGroup(),
+                $memberships
+            )
         ));
     }
 
-    private function map(Member $member): GroupModel
+    public function getGroupById(int $groupId): GroupModel
     {
-        return (new GroupModel())->setId($member->getGroup()->getId())
-            ->setTitle($member->getGroup()->getTitle())
-            ->setDescription($member->getGroup()->getDescription());
+        if (!$this->groupRepository->existsById($groupId)) {
+            throw new GroupNotFoundException();
+        }
+
+        return $this->map($this->groupRepository->getGroupById($groupId));
+    }
+
+    private function map(Group $group): GroupModel
+    {
+        return (new GroupModel())->setId($group->getId())
+            ->setTitle($group->getTitle())
+            ->setDescription($group->getDescription());
     }
 }

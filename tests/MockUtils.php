@@ -17,7 +17,7 @@ class MockUtils
 
     public static function createGroup(): Group
     {
-        return (new Group())->setTitle('test Team')
+        return (new Group())->setTitle('test Group')
             ->setDescription('test Description');
     }
 
