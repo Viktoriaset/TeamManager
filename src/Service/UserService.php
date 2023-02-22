@@ -16,7 +16,7 @@ class UserService
 
     public function getUserById(int $userId): UserModel
     {
-        if ($this->userRepository->existsById($userId)) {
+        if (!$this->userRepository->existsById($userId)) {
             throw new UserNotFoundException();
         }
 

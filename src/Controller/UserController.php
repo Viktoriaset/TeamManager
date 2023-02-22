@@ -32,9 +32,9 @@ class UserController extends AbstractController
      *     @Model(type=ErrorResponse::class)
      * )
      */
-    #[Route(path: '/api/v1/team/{id}/members', methods: ['GET'])]
-    public function getUserById(int $id): Response
+    #[Route(path: '/api/v1/user/{userId}', methods: ['GET'])]
+    public function getUserById(int $userId): Response
     {
-        return $this->json($this->userService->getUserById($id));
+        return $this->json($this->userService->getUserById($userId));
     }
 }

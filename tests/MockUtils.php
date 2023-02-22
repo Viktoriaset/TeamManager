@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Entity\Group;
+use App\Entity\Member;
 use App\Entity\User;
 
 class MockUtils
@@ -14,9 +15,14 @@ class MockUtils
             ->setPatronymic('testerov');
     }
 
-    public static function createTeam(): Group
+    public static function createGroup(): Group
     {
         return (new Group())->setTitle('test Team')
             ->setDescription('test Description');
+    }
+
+    public static function createMember(User $user, Group $group): Member
+    {
+        return (new Member())->setGroup($group)->setUserData($user);
     }
 }
