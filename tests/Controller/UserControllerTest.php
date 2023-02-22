@@ -15,34 +15,25 @@ class UserControllerTest extends AbstractControllerTest
     public function testGetUsersByTeamId()
     {
         $user = MockUtils::createUser();
-        $team = MockUtils::createTeam();
-        $user->addTeam($team);
+        $group = MockUtils::createGroup();
 
         $this->em->persist($user);
-        $this->em->persist($team);
+        $this->em->persist($group);
+        $this->em->persist(MockUtils::createMember($user, $group));
         $this->em->flush();
 
-        $this->client->request('GET', '/api/v1/team/'.$team->getId().'/members');
+        $this->client->request('GET', '/api/v1/user/'.$user->getId());
         $responseContent = json_decode($this->client->getResponse()->getContent(), true);
 
         $this->assertResponseIsSuccessful();
         $this->assertJsonDocumentMatchesSchema($responseContent, [
             'type' => 'object',
-            'required' => ['items'],
+            'required' => ['id', 'firstName', 'secondName', 'patronymic'],
             'properties' => [
-                'items' => [
-                    'type' => 'array',
-                    'items' => [
-                        'type' => 'object',
-                        'required' => ['id', 'firstName', 'secondName', 'patronymic'],
-                        'properties' => [
-                            'id' => ['type' => 'integer'],
-                            'firstName' => ['type' => 'string'],
-                            'secondName' => ['type' => 'string'],
-                            'patronymic' => ['type' => 'string'],
-                        ],
-                    ],
-                ],
+                'id' => ['type' => 'integer'],
+                'firstName' => ['type' => 'string'],
+                'secondName' => ['type' => 'string'],
+                'patronymic' => ['type' => 'string'],
             ],
         ]);
     }

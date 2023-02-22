@@ -2,22 +2,19 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\GroupController;
 use App\Tests\AbstractControllerTest;
 use App\Tests\MockUtils;
-use PHPUnit\Framework\TestCase;
 
-class TeamControllerTest extends AbstractControllerTest
+class GroupControllerTest extends AbstractControllerTest
 {
-
     public function testGetTeamsByUserId()
     {
         $user = MockUtils::createUser();
-        $team = MockUtils::createTeam();
-        $user->addTeam($team);
+        $group = MockUtils::createGroup();
 
         $this->em->persist($user);
-        $this->em->persist($team);
+        $this->em->persist($group);
+        $this->em->persist(MockUtils::createMember($user, $group));
         $this->em->flush();
 
         $this->client->request('GET', '/api/v1/user/'.$user->getId().'/teams');
@@ -26,9 +23,9 @@ class TeamControllerTest extends AbstractControllerTest
         $this->assertResponseIsSuccessful();
         $this->assertJsonDocumentMatchesSchema($responseContent, [
             'type' => 'object',
-            'required' => ['teams'],
+            'required' => ['items'],
             'properties' => [
-                'teams' => [
+                'items' => [
                     'type' => 'array',
                     'items' => [
                         'type' => 'object',
