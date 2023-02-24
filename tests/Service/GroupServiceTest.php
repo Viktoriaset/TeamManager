@@ -15,6 +15,8 @@ use App\Tests\MockUtils;
 
 class GroupServiceTest extends AbstractTestCase
 {
+    use MemberCreator;
+
     private MemberRepository $memberRepository;
 
     private UserRepository $userRepository;
@@ -49,13 +51,7 @@ class GroupServiceTest extends AbstractTestCase
             ->with(1)
             ->willReturn(true);
 
-        $group = MockUtils::createGroup();
-        $user = MockUtils::createUser();
-        $member = MockUtils::createMember($user, $group);
-
-        $this->setEntityId($group, 1);
-        $this->setEntityId($user, 1);
-        $this->setEntityId($member, 1);
+        $member = $this->createMember();
 
         $this->memberRepository->expects($this->once())
             ->method('findAllByUser')

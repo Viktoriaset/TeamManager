@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Event;
 use App\Entity\Group;
 use App\Entity\Member;
 use App\Entity\User;
@@ -23,6 +24,14 @@ class MockUtils
 
     public static function createMember(User $user, Group $group): Member
     {
-        return (new Member())->setGroup($group)->setUserData($user);
+        return (new Member())->setUserData($user)->setGroup($group);
+    }
+
+    public static function createEvent(Member $member): Event
+    {
+        return (new Event())->setMember($member)
+            ->setDescription('test Description')
+            ->setTrainingDate(new \DateTime('2022-10-10'))
+            ->setVisited(true);
     }
 }
