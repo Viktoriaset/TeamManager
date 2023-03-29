@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -17,8 +18,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiExceptionListener
 {
-
-
     public function __construct(
         private ExceptionMappingResolver $resolver,
         private LoggerInterface $logger,
@@ -30,6 +29,9 @@ class ApiExceptionListener
     public function __invoke(ExceptionEvent $event): void
     {
         $throwable = $event->getThrowable();
+        if ($this->isSecurityException($throwable)) {
+            return;
+        }
 
         $mapping = $this->resolver->resolve(get_class($throwable));
         if (null === $mapping) {
@@ -51,6 +53,11 @@ class ApiExceptionListener
         $data = $this->serializer->serialize(new ErrorResponse($message, $details), JsonEncoder::FORMAT);
 
         $event->setResponse(new JsonResponse($data, $mapping->getCode(), [], true));
+    }
+
+    private function isSecurityException(\Throwable $throwable): bool
+    {
+        return $throwable instanceof AuthenticationException;
     }
 
 }

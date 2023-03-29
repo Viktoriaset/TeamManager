@@ -13,7 +13,9 @@ class MockUtils
     {
         return (new User())->setFirstName('Tester')
             ->setSecondName('tester')
-            ->setPatronymic('testerov');
+            ->setPatronymic('testerov')
+            ->setEmail('test@mail.com')
+            ->setPassword('testPassword');
     }
 
     public static function createGroup(): Group

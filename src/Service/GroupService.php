@@ -30,11 +30,8 @@ class GroupService
         $memberships = $this->memberRepository->findAllByUser($userId);
 
         return new GroupListResponse(array_map(
-            [$this, 'map'],
-            array_map(
-                fn (Member $member) => $member->getGroup(),
-                $memberships
-            )
+            fn (Member $member) => $this->map($member->getGroup()),
+            $memberships
         ));
     }
 

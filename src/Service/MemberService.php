@@ -2,10 +2,9 @@
 
 namespace App\Service;
 
-use App\Entity\Member;
 use App\Exception\GroupNotFoundException;
+use App\Mapper\MemberMapper;
 use App\Model\MemberListResponse;
-use App\Model\MemberModel;
 use App\Repository\GroupRepository;
 use App\Repository\MemberRepository;
 
@@ -26,16 +25,8 @@ class MemberService
         $members = $this->memberRepository->findAllByGroup($groupId);
 
         return new MemberListResponse(array_map(
-            [$this, 'map'],
+            [MemberMapper::class, 'memberMap'],
             $members
         ));
-    }
-
-    private function map(Member $member): MemberModel
-    {
-        return (new MemberModel())->setUserId($member->getUserData()->getId())
-            ->setFirstName($member->getUserData()->getFirstName())
-            ->setSecondName($member->getUserData()->getSecondName())
-            ->setPatronymic($member->getUserData()->getPatronymic());
     }
 }
